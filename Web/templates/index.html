@@ -5,6 +5,52 @@
     <title>Title</title>
 </head>
 <body>
+
+    {% extends 'layout.html' %}
+
+
+    {% block content %}
+
     <h1>Budget Buddy</h1>
+        <p>Welcome To A New Budget</p>
+
+        <form method="POST">
+            {{ form.hidden_tag() }}
+
+            <div>
+                {{ form.income_amount.label }}
+                {{ form.income_amount() }}
+            </div>
+
+            <div>
+                {{ form.income_description.label }}
+                {{ form.income_description() }}
+            </div>
+
+            <div>
+                {{ form.expense_amount.label }}
+                {{ form.expense_amount() }}
+            </div>
+
+            <div>
+                {{ form.expense_description.label }}
+                {{ form.expense_description() }}
+            </div>
+
+            {{ form.submit() }}
+        </form>
+
+        <div>
+            <div>
+                <button>View Summary</button>
+            </div>
+
+            <div>
+                <button>Reset Session</button>
+            </div>
+        </div>
+
+    {% endblock %}
 </body>
 </html>
+
