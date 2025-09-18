@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for
 
-from Projects.BudgetBuddy.Logic.models.ExpenseEntry import ExpenseEntry
-from Projects.BudgetBuddy.Logic.models.IncomeEntry import IncomeEntry
-from Projects.BudgetBuddy.Web.forms.budgetForm import BudgetForm
-from Projects.BudgetBuddy.Logic.BudgetManager import BudgetManager
+from LU2.BudgetBuddy.Logic.models.ExpenseEntry import ExpenseEntry
+from LU2.BudgetBuddy.Logic.models.IncomeEntry import IncomeEntry
+from LU2.BudgetBuddy.Web.forms.budgetForm import BudgetForm
+from LU2.BudgetBuddy.Logic.BudgetManager import BudgetManager
 
-app = Flask(__name__, template_folder='Web/templates')
+app = Flask(__name__, template_folder='Web/templates', static_folder='Web/static')
 app.secret_key = "BudgetBuddy00"
 
 @app.route("/", methods=['GET', 'POST'])
