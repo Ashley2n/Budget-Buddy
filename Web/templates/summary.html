@@ -13,7 +13,7 @@
     {% block content %}
         <p>Income</p>
         {% if session['income_array'] %}
-            <ul>
+            <ul id="income">
                 {% for item in session['income_array'] %}
                     <li>Amount: {{ item.amount | format_price }}</li>
                     <li>Description: {{ item.description }}</li>
@@ -29,7 +29,7 @@
 
         <p>Expense</p>
         {% if session['expense_array'] %}
-            <ul>
+            <ul id="income">
                 {% for item in session['expense_array'] %}
                     <li>Amount: {{ item.amount | format_price }}</li>
                     <li>Description: {{ item.description }}</li>

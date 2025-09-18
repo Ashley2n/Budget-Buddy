@@ -6,7 +6,7 @@ from Projects.BudgetBuddy.Web.forms.budgetForm import BudgetForm
 from Projects.BudgetBuddy.Logic.BudgetManager import BudgetManager
 from Projects.BudgetBuddy.Web.utils.customfunctions import format_price
 
-app = Flask(__name__, template_folder='Web/templates')
+app = Flask(__name__, template_folder='Web/templates', static_folder='Web/static')
 app.secret_key = "BudgetBuddy00"
 
 app.jinja_env.filters['format_price'] = format_price
@@ -30,14 +30,24 @@ def index():
         bm.add_expense(expense_entity)
 
         # What is a better practice for session like this how can i make it more persistence
-        session['income_array'] = []
-        session['expense_array'] = []
 
-        for item in bm.income:
-            session['income_array'].append({"description": item.description, "amount": item.amount})
+        if session.get('income_array') is not None:
+            session['income_array'] = []
 
-        for item in bm.expense:
-            session['expense_array'].append({"description": item.description, "amount": item.amount})
+            for item in bm.income:
+                session['income_array'].append({"description": item.description, "amount": item.amount})
+        else:
+            session['income_array'] = []
+            session['income_array'].append({"description": income_entity.description, "amount": income_entity.amount})
+
+        if session.get('expense_array') is not None:
+            session['expense_array'] = []
+
+            for item in bm.expense:
+                session['expense_array'].append({"description": item.description, "amount": item.amount})
+        else:
+            session['expense_array'] = []
+            session['expense_array'].append({"description": expense_entity.description, "amount": expense_entity.amount})
 
         total_income = bm.get_total_income()
         total_expense = bm.get_total_expense()
@@ -59,6 +69,11 @@ def index():
 @app.route("/summary")
 def summary():
     return render_template("summary.html")
+
+@app.route("/session_clear")
+def session_clear():
+    session.clear()
+    return redirect(url_for('index'))
 
 
 @app.errorhandler(404)
