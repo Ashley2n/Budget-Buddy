@@ -1,4 +1,4 @@
-from Projects.BudgetBuddy.Logic.models.Entry import Entry
+from LU2.BudgetBuddy.Logic.models.Entry import Entry
 
 class ExpenseEntry(Entry):
 
