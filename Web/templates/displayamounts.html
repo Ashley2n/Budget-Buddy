@@ -2,14 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Budget Summary</title>
 </head>
 <body>
+
+    {% extends 'layout.html' %}
+
     <p>Success!!</p>
     <br/>
-    <p>Income: {{ income }}</p>
-    <p>Income Description: {{ inc_desc }}</p>
-    <p>Expense: {{ expense }}</p>
-    <p>Expense Description: {{ exp_desc }}</p>
+    {% block content %}
+        <p>Income</p>
+        {% if session['income_array'] %}
+            <ul>
+                {% for item in session['income_array'] %}
+                    <li>Amount: {{ item.amount }}</li>
+                    <li>Description: {{ item.description }}</li>
+                    <br>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+            <h2>No Item in the Array</h2>
+        {% endif %}
+
+
+
+        <p>Expense</p>
+        {% if session['expense_array'] %}
+            <ul>
+                {% for item in session['expense_array'] %}
+                    <li>Amount: {{ item.amount }}</li>
+                    <li>Description: {{ item.description }}</li>
+                    <br>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+            <h2>No Item in the Array</h2>
+        {% endif %}
+
+
+        {% if session['totals'] %}
+            <p>Income Total: {{ session['totals'].income }}</p>
+            <p>Expense Total: {{ session['totals'].expense }}</p>
+            <p>Net Total: {{ session['totals'].net_totals }}</p>
+
+
+        {% endif %}
+
+
+
+    {% endblock %}
 </body>
 </html>
