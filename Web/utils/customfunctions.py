@@ -1,6 +1,6 @@
 
 def format_price(value):
-    return f"${value:+,.2f}"
+    return f"${value:,.2f}"
 
 def isfloat(value):
     try:

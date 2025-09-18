@@ -1,12 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 
 from Projects.BudgetBuddy.Logic.models.ExpenseEntry import ExpenseEntry
 from Projects.BudgetBuddy.Logic.models.IncomeEntry import IncomeEntry
 from Projects.BudgetBuddy.Web.forms.budgetForm import BudgetForm
 from Projects.BudgetBuddy.Logic.BudgetManager import BudgetManager
+from Projects.BudgetBuddy.Web.utils.customfunctions import format_price
 
 app = Flask(__name__, template_folder='Web/templates')
 app.secret_key = "BudgetBuddy00"
+
+app.jinja_env.filters['format_price'] = format_price
+
+bm = BudgetManager()
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -21,26 +26,40 @@ def index():
         income_entity = IncomeEntry(amount=income, description=inc_desc)
         expense_entity = ExpenseEntry(amount=expense, description=exp_desc)
 
-        budget_manager = BudgetManager()
+        bm.add_income(income_entity)
+        bm.add_expense(expense_entity)
 
-        return redirect(url_for('success',
-                                income=income,
-                                inc_desc=inc_desc,
-                                expense=expense,
-                                exp_desc=exp_desc))
+        # What is a better practice for session like this how can i make it more persistence
+        session['income_array'] = []
+        session['expense_array'] = []
+
+        for item in bm.income:
+            session['income_array'].append({"description": item.description, "amount": item.amount})
+
+        for item in bm.expense:
+            session['expense_array'].append({"description": item.description, "amount": item.amount})
+
+        total_income = bm.get_total_income()
+        total_expense = bm.get_total_expense()
+        net_total = bm.get_net_total()
+
+        session['totals'] = {"income": total_income, "expense": total_expense, "net_totals": net_total}
+
+
+
+        # session['my_array'] = [income_entity, expense_entity]
+        # session['my_array'] = [
+        #     {"description": income_entity.description, "amount": income_entity.amount},
+        #     {"description": expense_entity.description, "amount": expense_entity.amount}
+        # ]
+
+        return redirect(url_for('summary'))
     return render_template('index.html', form=form )
 
 @app.route("/summary")
 def summary():
     return render_template("summary.html")
 
-@app.route("/success/<income>/<inc_desc>/<expense>/<exp_desc>")
-def success(income, inc_desc, expense, exp_desc):
-    return render_template('displayamounts.html',
-                           income=income,
-                           inc_desc=inc_desc,
-                           expense=expense,
-                           exp_desc=exp_desc)
 
 @app.errorhandler(404)
 def page_not_found(e):

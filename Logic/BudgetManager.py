@@ -10,10 +10,10 @@ class BudgetManager:
         self.expense = []
 
     def add_income(self, income:IncomeEntry):
-        self.income.append(IncomeEntry)
+        self.income.append(income)
 
     def add_expense(self, expense:ExpenseEntry):
-        self.expense.append(ExpenseEntry)
+        self.expense.append(expense)
 
     def get_total_income(self):
         total = 0
