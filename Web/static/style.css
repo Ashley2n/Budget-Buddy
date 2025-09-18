@@ -21,6 +21,10 @@ header {
     color: darkcyan;
     margin-bottom: 20px;
 }
+#income{
+    color:darkcyan;
+    list-style: none;
+}
 
 nav ul {
     list-style: none;
@@ -28,7 +32,7 @@ nav ul {
     gap: 15px;
 }
 
-nav, ul, li, a {
+nav, ul, a {
     color: white;
     text-decoration: none;
     font-weight: bold;

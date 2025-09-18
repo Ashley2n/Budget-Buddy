@@ -1,6 +1,6 @@
-from LU2.BudgetBuddy.Logic.models.IncomeEntry import IncomeEntry
-from LU2.BudgetBuddy.Logic.models.ExpenseEntry import ExpenseEntry
-from LU2.BudgetBuddy.Logic.models.Entry import Entry
+from Projects.BudgetBuddy.Logic.models.IncomeEntry import IncomeEntry
+from Projects.BudgetBuddy.Logic.models.ExpenseEntry import ExpenseEntry
+from Projects.BudgetBuddy.Logic.models.Entry import Entry
 
 class BudgetManager:
 
